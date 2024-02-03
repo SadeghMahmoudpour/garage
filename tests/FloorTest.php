@@ -110,9 +110,9 @@ class FloorTest extends TestCase
             ]],
             [[
                 "cap" => 1,
-                "excludeVehicleTypes" => ["v"],
+                "excludeVehicleTypes" => ["van"],
                 "currentVehicles" => [],
-                "vehicleType" => "v",
+                "vehicleType" => "van",
                 "vehicleSize" => 0.5,
                 "result" => false,
             ]],
@@ -180,9 +180,9 @@ class FloorTest extends TestCase
             ]],
             [[
                 "cap" => 1,
-                "excludeVehicleTypes" => ["v"],
+                "excludeVehicleTypes" => ["van"],
                 "currentVehicles" => [],
-                "vehicleType" => "v",
+                "vehicleType" => "van",
                 "vehicleSize" => 0.5,
                 "exception" => NoCapacityException::class,
             ]],
