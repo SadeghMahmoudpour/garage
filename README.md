@@ -28,12 +28,6 @@ modification.
 This garage system is designed to be flexible, accommodating any number of floors dynamically. Each floor can specify
 excluded vehicle types, allowing for specific restrictions such as preventing vans from parking on the first floor.
 
-### Vehicle Classes and Interfaces
-
-The implementation includes three distinct vehicle classes: Car, Van, and Motorcycle. Each vehicle class adheres to the
-VehicleInterface, which defines methods for retrieving the type and size of the vehicle. This structured design enhances
-code clarity, making it easier to extend and maintain.
-
 ### Interface Abstraction
 
 To promote modularity and flexibility, three interfaces are employed:
@@ -46,8 +40,16 @@ vehicle.
 **VehicleInterface**: Ensures a consistent interface for vehicle classes, allowing seamless integration into the garage
 system.
 
+### Vehicle Classes
+
+#### Vehicle Hierarchy
+The vehicle hierarchy in this garage system is structured around a base class, **Vehicle**, which serves as the foundation
+for specific vehicle types. Three distinct classes, namely **Car**, **Motorcycle**, and **Van**, extend the Vehicle base class.
+
 ## Testing Approach
+
 ### Stubs for Isolated Testing
+
 To ensure the robustness and reliability of the garage system, a testing approach leveraging stubs was adopted. Stubs,
 such as VehicleStub and FloorStub, were created to simulate the behavior of interfaces without relying on the actual
 implementations.
@@ -59,5 +61,6 @@ interactions with vehicle-related functionalities.
 parking model.
 
 ### Table-Driven Testing for Comprehensive Coverage
+
 Table-driven testing was employed to achieve thorough coverage of various test cases. Different scenarios and inputs
 were systematically organized in tables, allowing for a structured and efficient testing approach.

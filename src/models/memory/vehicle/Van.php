@@ -2,21 +2,16 @@
 
 namespace Temperworks\Codechallenge\models\memory\vehicle;
 
-use Temperworks\Codechallenge\models\VehicleInterface;
+use Temperworks\Codechallenge\models\memory\Vehicle;
 
-class Van implements VehicleInterface
+class Van extends Vehicle
 {
     public const TYPE = "VAN";
 
-    private const SIZE = 1.5;
+    public const SIZE = 1.5;
 
-    public function getSize(): float
+    public function __construct()
     {
-       return self::SIZE;
-    }
-
-    public function getType(): string
-    {
-        return self::TYPE;
+        parent::__construct(self::SIZE, self::TYPE);
     }
 }
