@@ -39,9 +39,7 @@ class FloorTest extends TestCase
             $floor->parkVehicle($currentVehicle);
         }
 
-        $vehicle = $this->createStub(VehicleInterface::class);
-        $vehicle->method("getType")->willReturn($testCase["vehicleType"]);
-        $vehicle->method("getSize")->willReturn($testCase["vehicleSize"]);
+        $vehicle = $this->createVehicleStub($testCase["vehicleSize"], $testCase["vehicleType"]);
 
         if ($testCase["exception"]) {
             $this->expectException($testCase["exception"]);
@@ -189,5 +187,14 @@ class FloorTest extends TestCase
                 "exception" => NoCapacityException::class,
             ]],
         ];
+    }
+
+    private function createVehicleStub(float $size, string $type): VehicleInterface
+    {
+        $vehicle = $this->createStub(VehicleInterface::class);
+        $vehicle->method("getSize")->willReturn($size);
+        $vehicle->method("getType")->willReturn($type);
+
+        return $vehicle;
     }
 }

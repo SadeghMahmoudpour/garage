@@ -26,7 +26,7 @@ class Floor implements FloorInterface
             $this->getRemainingCapacity() >= $vehicle->getSize();
     }
 
-    public function parkVehicle(VehicleInterface $vehicle)
+    public function parkVehicle(VehicleInterface $vehicle): void
     {
         if (!$this->doesAcceptVehicle($vehicle)) {
             throw new NoCapacityException();
