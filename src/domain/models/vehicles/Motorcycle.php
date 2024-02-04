@@ -1,8 +1,8 @@
 <?php
 
-namespace Temperworks\Codechallenge\models\memory\vehicle;
+namespace Temperworks\Codechallenge\domain\models\vehicles;
 
-use Temperworks\Codechallenge\models\memory\Vehicle;
+use Temperworks\Codechallenge\domain\models\Vehicle;
 
 class Motorcycle extends Vehicle
 {

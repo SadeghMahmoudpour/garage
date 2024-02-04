@@ -1,10 +1,12 @@
 <?php
 
+namespace unit\domain\models;
+
 use PHPUnit\Framework\TestCase;
-use Temperworks\Codechallenge\exceptions\NoCapacityException;
-use Temperworks\Codechallenge\models\FloorInterface;
-use Temperworks\Codechallenge\models\memory\Parking;
-use Temperworks\Codechallenge\models\VehicleInterface;
+use Temperworks\Codechallenge\domain\exceptions\CouldNotParkVehicle;
+use Temperworks\Codechallenge\domain\models\Floor;
+use Temperworks\Codechallenge\domain\models\Parking;
+use Temperworks\Codechallenge\domain\models\Vehicle;
 
 class ParkingTest extends TestCase
 {
@@ -15,17 +17,17 @@ class ParkingTest extends TestCase
     {
         $floors = [];
         foreach ($testCase["floors"] as $floorData) {
-            $floors[] = $this->createFloor($floorData["acceptVehicle"], $floorData["parkVehicle"]);
+            $floors[] = $this->createFloorStub($floorData["acceptVehicle"], $floorData["parkVehicle"]);
         }
         $parking = new Parking($floors);
 
-        $vehicle = $this->createVehicleStub($testCase["vehicleSize"], $testCase["vehicleType"]);
+        $vehicle = new Vehicle($testCase["vehicleSize"], $testCase["vehicleType"]);
 
         $result = $parking->doesAcceptVehicle($vehicle);
         self::assertEquals($testCase["result"], $result);
     }
 
-    public function provideTestDataForDoesAcceptVehicle()
+    public function provideTestDataForDoesAcceptVehicle(): array
     {
         return [
             [[
@@ -85,13 +87,13 @@ class ParkingTest extends TestCase
     {
         $floors = [];
         foreach ($testCase["floors"] as $floorData) {
-            $floors[] = $this->createFloor($floorData["acceptVehicle"], $floorData["parkVehicle"]);
+            $floors[] = $this->createFloorStub($floorData["acceptVehicle"], $floorData["parkVehicle"]);
         }
         $parking = new Parking($floors);
 
-        $vehicle = $this->createVehicleStub($testCase["vehicleSize"], $testCase["vehicleType"]);
+        $vehicle = new Vehicle($testCase["vehicleSize"], $testCase["vehicleType"]);
 
-        if($testCase["exception"]) {
+        if ($testCase["exception"]) {
             $this->expectException($testCase["exception"]);
         } else {
             $this->expectNotToPerformAssertions();
@@ -99,7 +101,7 @@ class ParkingTest extends TestCase
         $parking->parkVehicle($vehicle);
     }
 
-    public function provideTestDataParkVehicle()
+    public function provideTestDataParkVehicle(): array
     {
         return [
             [[
@@ -122,7 +124,7 @@ class ParkingTest extends TestCase
                 ],
                 "vehicleType" => "car",
                 "vehicleSize" => 1.0,
-                "exception" => NoCapacityException::class,
+                "exception" => CouldNotParkVehicle::class,
             ]],
             [[
                 "floors" => [
@@ -147,41 +149,32 @@ class ParkingTest extends TestCase
                 "floors" => [],
                 "vehicleType" => "car",
                 "vehicleSize" => 1.0,
-                "exception" => NoCapacityException::class,
+                "exception" => CouldNotParkVehicle::class,
             ]],
             [[
                 "floors" => [
                     [
                         "acceptVehicle" => true,
-                        "parkVehicle" => new NoCapacityException(),
+                        "parkVehicle" => CouldNotParkVehicle::becauseNoFloorAcceptsVehicle(),
                     ],
                 ],
                 "vehicleType" => "car",
                 "vehicleSize" => 1.0,
-                "exception" => NoCapacityException::class,
+                "exception" => CouldNotParkVehicle::class,
             ]],
         ];
     }
 
-    private function createFloor(bool $doesAccept, ?\Exception $parkVehicleException): FloorInterface
+    private function createFloorStub(bool $doesAccept, ?\Exception $parkVehicleException): Floor
     {
-        $floor = $this->createStub(FloorInterface::class);
+        $floor = $this->createStub(Floor::class);
         $floor->method("doesAcceptVehicle")->willReturn($doesAccept);
-        if($parkVehicleException) {
+        if ($parkVehicleException) {
             $floor->method("parkVehicle")->willThrowException($parkVehicleException);
         } else {
             $floor->method("parkVehicle");
         }
 
         return $floor;
-    }
-
-    private function createVehicleStub(float $size, string $type): VehicleInterface
-    {
-        $vehicle = $this->createStub(VehicleInterface::class);
-        $vehicle->method("getSize")->willReturn($size);
-        $vehicle->method("getType")->willReturn($type);
-
-        return $vehicle;
     }
 }

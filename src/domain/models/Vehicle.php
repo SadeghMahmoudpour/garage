@@ -1,10 +1,8 @@
 <?php
 
-namespace Temperworks\Codechallenge\models\memory;
+namespace Temperworks\Codechallenge\domain\models;
 
-use Temperworks\Codechallenge\models\VehicleInterface;
-
-class Vehicle implements VehicleInterface
+class Vehicle
 {
     public function __construct(private float $size, private string $type)
     {

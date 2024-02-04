@@ -10,7 +10,7 @@ This README assumes you're using Docker to run the challenge.
 
 3. Stop the docker containers; `docker compose down`
 
-Without further ado - good luck with the challenge and, even more importantly, HAVE FUN!
+4. Run application command; `docker compose exec app php index.php`
 
 # Assumptions and design decisions
 
@@ -21,24 +21,59 @@ encapsulate both data and behavior within the domain model, promoting a more coh
 approach enhances the clarity and readability of the code, fostering a robust foundation for future scalability and
 modification.
 
+## Project Architecture
+
+Our project follows the principles of Hexagonal Architecture, separating concerns into distinct layers: *Application*, *Domain*, and *Infrastructure*.
+
+### Application Layer
+
+In the `src/application` directory, we organize our use cases into the `usecases` directory, which contains the following commands:
+
+1. *CheckCapacity Command:*
+    - Responsible for checking the capacity of the parking system for given vehicle type.
+
+2. *CreateParking Command:*
+    - Handles the creation of a parking facility.
+
+3. *ParkVehicle Command:*
+    - Manages the parking of a vehicle within the system.
+
+### Domain Layer
+
+The core business logic resides in the `src/domain` directory. It includes the following components:
+
+- *exceptions:*
+    - Exception classes for handling domain-specific errors.
+
+- *models:*
+    - Model classes representing core domain entities.
+
+- *repositories:*
+    - The `src/domain/repositories` directory includes outbound repository interfaces, defining contracts for interacting with external systems or databases.
+
+- *services:*
+    - Contains domain services responsible for encapsulating domain logic that doesn't naturally fit into a specific entity.
+
+### Infrastructure Layer
+
+In the `src/infrastructure` directory, we organize our infrastructure-related code into the following directories:
+
+- *console:*
+    - Contains console-related functionality, allowing interaction with the command line.
+
+- *repository:*
+    - Implements the outbound repository interfaces defined in the domain layer. These implementations handle interactions with external systems, such as databases.
+
+### Future Considerations
+
+As our project evolves, we will continue to adhere to the principles of Hexagonal Architecture, ensuring a clear separation of concerns and flexibility in adapting to changing requirements.
+
 ## System Implementation
 
 ### Dynamic Floors and Vehicle Restrictions
 
 This garage system is designed to be flexible, accommodating any number of floors dynamically. Each floor can specify
 excluded vehicle types, allowing for specific restrictions such as preventing vans from parking on the first floor.
-
-### Interface Abstraction
-
-To promote modularity and flexibility, three interfaces are employed:
-
-**FloorInterface**: Defines methods for checking whether a floor accepts a particular vehicle and parking a vehicle on
-that
-floor.  
-**ParkingInterface**: Mirrors the FloorInterface with methods for checking if parking is accepted and parking a
-vehicle.    
-**VehicleInterface**: Ensures a consistent interface for vehicle classes, allowing seamless integration into the garage
-system.
 
 ### Vehicle Classes
 
@@ -51,14 +86,8 @@ for specific vehicle types. Three distinct classes, namely **Car**, **Motorcycle
 ### Stubs for Isolated Testing
 
 To ensure the robustness and reliability of the garage system, a testing approach leveraging stubs was adopted. Stubs,
-such as VehicleStub and FloorStub, were created to simulate the behavior of interfaces without relying on the actual
+such as FloorStub and ParkingRepositoryStub, were created to simulate the behavior of them without relying on the actual
 implementations.
-
-**VehicleStub**: A stub implementing the VehicleInterface, designed to provide controlled responses for testing the
-interactions with vehicle-related functionalities.
-
-**FloorStub**: A stub implementing FloorInterface, facilitating isolated testing of the
-parking model.
 
 ### Table-Driven Testing for Comprehensive Coverage
 

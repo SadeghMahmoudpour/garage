@@ -12,5 +12,10 @@
         "psr-4": {
             "Temperworks\\Codechallenge\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Builders\\": "tests/builders/"
+        }
     }
 }
