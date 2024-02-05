@@ -20,9 +20,15 @@ class ApplicationCommand
     public function execute()
     {
         $capacities = [];
-        for ($i = 0; $i < self::FLOORS_COUNT; $i++) {
+        for ($i = 1; $i <= self::FLOORS_COUNT; $i++) {
             echo "Floor $i capacity:";
-            $capacities[] = readline();
+            $cap = readline();
+            if (!is_numeric($cap)) {
+                echo "invalid capacity\n";
+                $i--;
+            } else {
+                $capacities[] = $cap;
+            }
         }
 
         $parkingRepository = new ParkingRepository();
