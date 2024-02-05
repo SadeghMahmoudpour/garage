@@ -33,7 +33,7 @@ class ApplicationCommand
 
         $parkingRepository = new ParkingRepository();
 
-        $parkingService  = new ParkingService($parkingRepository);
+        $parkingService = new ParkingService($parkingRepository);
         $vehicleFactory = new VehicleFactory();
 
         $createParkingHandler = new CreateParkingHandler($parkingService);

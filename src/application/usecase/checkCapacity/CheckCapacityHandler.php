@@ -10,7 +10,8 @@ class CheckCapacityHandler
     public function __construct(
         private VehicleFactoryInterface $vehicleFactory,
         private ParkingServiceInterface $parkingService
-    ) {
+    )
+    {
     }
 
     public function check(CheckCapacity $checkCapacity): bool
